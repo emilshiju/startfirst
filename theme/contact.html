@@ -40,6 +40,8 @@
   <link rel="stylesheet" href="plugins/slick/slick.css">
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
 </head>
 <body id="body">
@@ -235,7 +237,7 @@ End Fixed Navigation
           
  					<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center;">
             <div class="form-group mb-4">
-                <textarea rows="6" placeholder="Message" class="form-control" name="message" id="message" required></textarea>
+                <textarea rows="6" placeholder="Message" class="form-control" id="message" required></textarea>
                 <!-- <a href="mailto:startfirst000@gmail.com" style="display: inline-block; background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; transition: background-color 0.3s ease;">SEND EMAIL TO startfirst000@gmail.com</a> -->
             </div>
         </body>
@@ -365,6 +367,8 @@ End Fixed Navigation
 
 </html>
 
+<!-- <script src="sweetalert2.all.min.js"></script> -->
+
 
 <script type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
@@ -383,31 +387,51 @@ const subject=document.getElementById('subject')
 const nameValue=name.value
 const subjectValue=subject.value
 const emailValue=email.value
+
 function call(){
- 
+
+
+  
+  
+
   var templateParams = {
     from_name: nameValue,
     to_name: "startfirst000@gmail.com",
     message: subjectValue,
     reply_to: emailValue,
   };
-  if(nameValue.lenght==undefined||subjectValue.lenght==undefined||emailValue.lenght==undefined){
-    alert("write something")
+  if(!nameValue||!subjectValue||!emailValue){
+    Swal.fire("write something");
   }else{
   emailjs.send("service_ubvmpkf", "template_dxx5c9b", templateParams)
   // console.log("sjfishfishfis")
     .then(function (response) {
-      alert("sucess"); // Move alert inside the then() function
+      Swal.fire({
+        icon: 'success',
+        title: 'successfully send',
+        text: 'successfully send.',
+        confirmButtonText: 'OK'
+    }).then(()=>{
+      document.getElementById('name').value = '';
+        document.getElementById('subject').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('message').value='';
+    })
       // alert(response);
       // console.log('SUCCESS!', response.status, response.text);
     })
     .catch(function (error) {
-      alert("error occur"); // Move alert inside the catch() function
+      Swal.fire({
+        icon: 'error',
+        title: 'error  occur',
+        text: 'error  occur',
+        confirmButtonText: 'OK'
+    }); // Move alert inside the catch() function
       // alert(error);
       // console.log('FAILED...', error);
     });
-  
+  }
   // alert(""); // Move alert outside of the send() function
-}
+
 }
 </script>
