@@ -388,50 +388,53 @@ const nameValue=name.value
 const subjectValue=subject.value
 const emailValue=email.value
 
-function call(){
 
+function call() {
+    // Retrieve input values when the function is called
+    const nameValue = document.getElementById('name').value.trim();
+    const emailValue = document.getElementById('email').value.trim();
+    const subjectValue = document.getElementById('subject').value.trim();
 
-  
-  
+    // Log the retrieved values to understand what's being checked
+    console.log(nameValue, subjectValue, emailValue);
 
-  var templateParams = {
-    from_name: nameValue,
-    to_name: "startfirst000@gmail.com",
-    message: subjectValue,
-    reply_to: emailValue,
-  };
-  if(!nameValue||!subjectValue||!emailValue){
-    Swal.fire("write something");
-  }else{
-  emailjs.send("service_ubvmpkf", "template_dxx5c9b", templateParams)
-  // console.log("sjfishfishfis")
-    .then(function (response) {
-      Swal.fire({
-        icon: 'success',
-        title: 'successfully send',
-        text: 'successfully send.',
-        confirmButtonText: 'OK'
-    }).then(()=>{
-      document.getElementById('name').value = '';
-        document.getElementById('subject').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('message').value='';
-    })
-      // alert(response);
-      // console.log('SUCCESS!', response.status, response.text);
-    })
-    .catch(function (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'error  occur',
-        text: 'error  occur',
-        confirmButtonText: 'OK'
-    }); // Move alert inside the catch() function
-      // alert(error);
-      // console.log('FAILED...', error);
-    });
-  }
-  // alert(""); // Move alert outside of the send() function
+    // Check if any of the required fields are empty
+    if (!nameValue || !subjectValue || !emailValue) {
+        Swal.fire("Please fill in all fields");
+    } else {
+        // Send email using EmailJS
+        var templateParams = {
+            from_name: nameValue,
+            to_name: "startfirst000@gmail.com",
+            message: subjectValue,
+            reply_to: emailValue,
+        };
 
+        emailjs.send("service_ubvmpkf", "template_dxx5c9b", templateParams)
+            .then(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Email Sent Successfully',
+                    text: 'Your message has been sent successfully.',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Clear form fields after successful submission
+                    document.getElementById('name').value = '';
+                    document.getElementById('subject').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('message').value = '';
+                });
+            })
+            .catch(function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Occurred',
+                    text: 'An error occurred while sending the email.',
+                    confirmButtonText: 'OK'
+                });
+            });
+    }
 }
+
+
 </script>
